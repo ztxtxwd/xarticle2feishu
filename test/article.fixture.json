@@ -1,0 +1,1101 @@
+{
+  "code": 200,
+  "message": "OK",
+  "tweet": {
+    "url": "https://x.com/ashpreetbedi/status/2053885390717890757",
+    "id": "2053885390717890757",
+    "text": "",
+    "raw_text": {
+      "text": "https://t.co/qtZeFbPfNH",
+      "display_text_range": [0, 23],
+      "facets": []
+    },
+    "author": {
+      "screen_name": "ashpreetbedi",
+      "url": "https://x.com/ashpreetbedi",
+      "id": "10350082",
+      "followers": 19959,
+      "following": 1575,
+      "likes": 10785,
+      "media_count": 526,
+      "name": "Ashpreet Bedi",
+      "description": "founder @agnoagi • prev @airbnb @facebook",
+      "raw_description": {
+        "text": "founder @agnoagi • prev @airbnb @facebook",
+        "facets": []
+      },
+      "location": "ny, london",
+      "banner_url": "https://pbs.twimg.com/profile_banners/10350082/1738252032",
+      "avatar_url": "https://pbs.twimg.com/profile_images/2024047696827273217/vlW-RvPT_200x200.jpg",
+      "joined": "Sun Nov 18 07:25:24 +0000 2007",
+      "protected": false,
+      "website": {
+        "url": "https://git.new/agno",
+        "display_url": "git.new/agno"
+      },
+      "verification": {
+        "verified": true,
+        "verified_at": null,
+        "type": "individual"
+      },
+      "avatar_color": null
+    },
+    "replies": 6,
+    "retweets": 35,
+    "likes": 297,
+    "bookmarks": 545,
+    "quotes": 1,
+    "created_at": "Mon May 11 17:10:11 +0000 2026",
+    "created_timestamp": 1778519411,
+    "possibly_sensitive": false,
+    "views": 19218,
+    "is_note_tweet": false,
+    "community_note": null,
+    "lang": null,
+    "replying_to": null,
+    "replying_to_status": null,
+    "source": "Twitter Web App",
+    "article": {
+      "created_at": "2026-05-11T17:10:11.000Z",
+      "modified_at": "2026-05-11T17:10:11.000Z",
+      "id": "2053142770689449984",
+      "title": "Auto-Improving Software",
+      "preview_text": "Coding agents have changed how we build software. Now they're changing how we improve it. Today I'll share an agent platform that coding agents build, run, and improve on their own.\nThe entire agent",
+      "cover_media": {
+        "id": "QXBpTWVkaWE6DAAFCgABHIDEEGibUAAKAAIAAAAAAJ3uAgAA",
+        "media_id": "2053857004834476032",
+        "media_info": {
+          "__typename": "ApiImage",
+          "color_info": {
+            "palette": [
+              {
+                "percentage": 96.57,
+                "rgb": {
+                  "blue": 245,
+                  "green": 244,
+                  "red": 244
+                }
+              },
+              {
+                "percentage": 2.1,
+                "rgb": {
+                  "blue": 129,
+                  "green": 127,
+                  "red": 127
+                }
+              },
+              {
+                "percentage": 0.41,
+                "rgb": {
+                  "blue": 57,
+                  "green": 92,
+                  "red": 252
+                }
+              },
+              {
+                "percentage": 0.35,
+                "rgb": {
+                  "blue": 128,
+                  "green": 148,
+                  "red": 244
+                }
+              },
+              {
+                "percentage": 0.17,
+                "rgb": {
+                  "blue": 225,
+                  "green": 191,
+                  "red": 171
+                }
+              }
+            ]
+          },
+          "original_img_height": 480,
+          "original_img_url": "https://pbs.twimg.com/media/HIDEEGibUAAD7j7.png",
+          "original_img_width": 1200
+        },
+        "media_key": "3_2053857004834476032"
+      },
+      "content": {
+        "blocks": [
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "7osb9",
+            "text": "Coding agents have changed how we build software. Now they're changing how we improve it. Today I'll share an agent platform that coding agents build, run, and improve on their own.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "7ct2o",
+            "text": "The entire agent development lifecycle is covered by five prompts:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 7,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "dittd",
+            "text": "Create. Scaffolds a new agent.",
+            "type": "unordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 8,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "aldia",
+            "text": "Improve. Hardens an existing agent against its own spec.",
+            "type": "unordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 7,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "1fn6f",
+            "text": "Extend. Adds new capabilities to an existing agent.",
+            "type": "unordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 11,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "48fci",
+            "text": "Hill Climb. Runs the eval suite, diagnoses failures, fixes what's in scope.",
+            "type": "unordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 7,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "5pefa",
+            "text": "Review. Sweeps the repo for drift between docs, code, and config.",
+            "type": "unordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "1pmkg",
+            "text": "The \"Improve → Hill Climb\" loop recursively improves my agents with minimal oversight. It's hard to imagine doing this manually.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "fbc6p",
+            "text": "FYI, this auto-improvement loop is only possible because the environment is designed for it. Agent code, traces, logs, eval suite, and the live software all live in one place so a coding agent can rip end-to-end.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "5vmdl",
+            "text": "It works because we control the stack",
+            "type": "header-one"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "5f5v4",
+            "text": "Most software can't auto-improve because its inputs and outputs are scattered across tools. To run the auto-improvement loop, a coding agent has to piece together data from three different tools, each behind its own auth, with its own way of doing things. ",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "3lb9l",
+            "text": "Theoretically possible. In practice, too much friction.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "9eb3c",
+            "text": "My codebase is specifically designed for auto-improvement. For example, claude code can test an agent, then PASS or FAIL by reading the sessions, traces, and logs. If the agent fails, it edits the agent and runs it again.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "8h6bi",
+            "text": "Three things make this possible:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 34,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "ciu8s",
+            "text": "Every action is exposed as an API. Running an agent, reading a session, running an eval. Every key action can be run using cURL or bash.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 18,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "1dq8c",
+            "text": "Data is colocated. Sessions and traces live in our Postgres database. A coding agent can trigger a run and read what came out without leaving its environment.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 21,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "fvp9j",
+            "text": "Logs over everything. The entire platform runs locally on Docker. The coding agent reads live logs and makes updates as needed. The test → review loop is ~5s. Logs are the real-time feedback loop that unlocks everything.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "79rve",
+            "text": "Agent platforms are the first category of software where the actions, data, and the iteration tool all sit close enough that a coding agent can test end-to-end, make code changes, and test again until the agent improves. Meaning the platform that hosts the loop is the first thing the loop improves.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "riq3",
+            "text": "Agent Development Lifecycle",
+            "type": "header-one"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "eaanh",
+            "text": "Next I'll show you how Claude Code runs my agent platform.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "njne",
+            "text": "1. Create an agent",
+            "type": "header-two"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "4r2h1",
+            "text": "To create a new agent, I open Claude Code and type:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "9qhnh",
+            "text": "Run create-new-agent.md in a new branch.",
+            "type": "blockquote"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "49mav",
+            "text": "Claude starts by asking a few questions about what the agent should do, which tools it needs. It then searches the Agno docs via MCP for the right toolkit, generates the agent file, registers it in app/main.py, restarts the container, and smoke-tests via cURL. 5-10 minutes from prompt to agent.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 0,
+                "length": 1,
+                "offset": 0
+              }
+            ],
+            "inlineStyleRanges": [],
+            "key": "99j9l",
+            "text": " ",
+            "type": "atomic"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "8m93d",
+            "text": "Because the platform takes care of everything, I'm building agents I never would have bothered with before. An agent that summarizes overnight Slack messages, an agent that drafts my weekly update, an agent that highlights important issues in the repo. None of these would have survived a multi-day project. All of them fit into a coffee break.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "3ke5n",
+            "text": "2. Improve an agent",
+            "type": "header-two"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "cho05",
+            "text": "To improve an existing agent, I type:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "e38u",
+            "text": "Run improve-agent.md on code-search agent.",
+            "type": "blockquote"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "c58o2",
+            "text": "Claude reads the agent's INSTRUCTIONS and derives 8-12 probes from them. Some golden-path. Some edge cases. Some tool-selection. A couple of adversarial ones thrown in: prompt injections, malformed input, attempts to pull the agent off-purpose.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "i4ji",
+            "text": "It runs each probe against the live container via cURL. Reads the response. Reads the tool calls from the container logs. Judges PASS or FAIL against what the INSTRUCTIONS actually promise.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 1,
+                "length": 1,
+                "offset": 0
+              }
+            ],
+            "inlineStyleRanges": [],
+            "key": "cp1oe",
+            "text": " ",
+            "type": "atomic"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "efdui",
+            "text": "For every failure it picks a lever. Tighten a rule. Add a rule. Swap a tool. Bump num_history_runs. Whatever fits the failure mode. It edits agents/<slug>.py, hot-reloads, and re-runs only the probes that failed.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "akdrf",
+            "text": "Then it iterates. Capped at five rounds. Stops earlier if everything passes.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "f7016",
+            "text": "Zero input from me beyond kicking off the task. This used to take a day of manually clicking things around and now its fully automated.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "1hosl",
+            "text": "3. Extend an agent",
+            "type": "header-two"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "5taen",
+            "text": "To add capabilities to an existing agent, I type:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "4qcc9",
+            "text": "Run extend-agent.md on code-search agent.",
+            "type": "blockquote"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "dgqkb",
+            "text": "Extend runs with me in the driver's seat. I describe a change: add a tool, refine a prompt, fix a bug. Claude executes. The Agno docs MCP is loaded so toolkit research is grounded in the real API.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "e0qf8",
+            "text": "Claude makes the changes. Runs smoke-tests. Each iteration is one small, verified step. Changes stay surgical and get tested in isolation.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "bfc43",
+            "text": "4. Hill Climb",
+            "type": "header-two"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "jq98",
+            "text": "Over time we collect a lot of evals, and it would be a shame to fix failures manually. I simply type:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "eu8c",
+            "text": "Run eval-and-improve.md.",
+            "type": "blockquote"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "7kt86",
+            "text": "Hill Climb runs the eval suite, diagnoses every failure, and fixes what's in scope. Failure types map to fix locations: missing rule in INSTRUCTIONS, hallucination, wrong tool fired, overspecified rubric. For each failure Claude picks the right lever, edits, and re-runs only the failing case. Once everything is green it re-runs the full suite to catch regressions.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "7c01p",
+            "text": "The eval suite is two files. evals/cases.py declares the cases. Each case is one input plus a rubric (what a correct response looks like) and optionally an expected tool call. Built on Agno's AgentAsJudgeEval and ReliabilityEval.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "81boe",
+            "text": "Improve catches out-of-distribution failures. Hill Climb makes sure in-distribution cases continue to pass. The two work very well together.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "971lu",
+            "text": "5. Review",
+            "type": "header-two"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 4,
+                "offset": 65,
+                "style": "Italic"
+              }
+            ],
+            "key": "4edt7",
+            "text": "Because the repo is managed primarily by coding agents, it moves fast. To bring everything up to speed, I type:",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "csrb4",
+            "text": "Run review-and-improve.md.",
+            "type": "blockquote"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "b3rh7",
+            "text": "Claude sweeps the whole repo for drift between docs, code, and config. Every agent file on disk should be registered in app/main.py. Every env var the code reads should be in example.env and the AGENTS.md. Every path in a markdown doc should still exist. Every script should do what's claimed.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "64la3",
+            "text": "Mechanical drift gets auto-fixed in place: a renamed file, a missing entry in example.env, a new agent missing from the architecture diagram. Anything bigger gets flagged with a recommended next step.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "9u4c3",
+            "text": "Best run before a release or after a refactor. The kind of work that's tedious for a human and trivial for a coding agent that can read every file in the repo.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "83e4b",
+            "text": "Drift between docs and code has always been a tax on production software. Now it costs nothing.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "4m4h5",
+            "text": "Why Agent Platforms?",
+            "type": "header-one"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "b8tr5",
+            "text": "Agent platforms are the perfect testing ground for this pattern.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 11,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "9ih7n",
+            "text": "Greenfield. Agent platforms are relatively new and can be designed for coding agents from the get go.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 18,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "e64ov",
+            "text": "Workflow is clear. We know how to improve an agent: run it, read the logs, grade the response, edit, run again.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [
+              {
+                "length": 28,
+                "offset": 0,
+                "style": "Bold"
+              }
+            ],
+            "key": "8s3jl",
+            "text": "The loop is actually useful. For regular software, optimizing an API endpoint doesn't really make sense. For agents, each round of improvement is real, measurable, and adds value.",
+            "type": "ordered-list-item"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "fkvp4",
+            "text": "Set the platform up right and you can build any agent on top of it: use the create workflow to go from idea to agent, the improve workflow to harden the agent, the extend workflow to add new capabilities, lock them up using evals and then hill-climb against them. ",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "1lvf4",
+            "text": "Keep the entire repo in sync using the review-and-improve workflow.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "4ajn2",
+            "text": "It's almost impossible to do this by hand.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "ciea3",
+            "text": "My Auto Improving Agent Platform",
+            "type": "header-one"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 2,
+                "length": 22,
+                "offset": 51
+              }
+            ],
+            "inlineStyleRanges": [],
+            "key": "22db2",
+            "text": "Here's a link to my auto-improving agent platform: agent-platform-railway.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "dib8n",
+            "text": "It's a starter codebase for an agent platform you can run locally using docker or on Railway. The prompts are in the docs/ folder. Clone, configure, and you're running agents in 10 minutes.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 3,
+                "length": 6,
+                "offset": 11
+              },
+              {
+                "key": 4,
+                "length": 9,
+                "offset": 48
+              }
+            ],
+            "inlineStyleRanges": [],
+            "key": "4n2l1",
+            "text": "Follow the README for the full setup guide, and Agno Docs for reference.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "66prh",
+            "text": "Auto-improving software",
+            "type": "header-one"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "8k5mp",
+            "text": "I've been running this loop for a few weeks and it continues to surprise me. ",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "fjsqh",
+            "text": "Agent instructions tightened by half a sentence. A docstring brought in sync with code. The platform is a little cleaner every time I run it.",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "a247u",
+            "text": "I can see a world where all software works like this. A coding agent managing your platform end-to-end, fixing things small enough you'd never have prioritized them. Thanks for reading!",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [],
+            "inlineStyleRanges": [],
+            "key": "etuqi",
+            "text": "Ashpreet",
+            "type": "unstyled"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 5,
+                "length": 1,
+                "offset": 0
+              }
+            ],
+            "inlineStyleRanges": [],
+            "key": "8t0tm",
+            "text": " ",
+            "type": "atomic"
+          },
+          {
+            "data": {},
+            "entityRanges": [
+              {
+                "key": 6,
+                "length": 1,
+                "offset": 11
+              },
+              {
+                "key": 7,
+                "length": 4,
+                "offset": 19
+              }
+            ],
+            "inlineStyleRanges": [
+              {
+                "length": 24,
+                "offset": 0,
+                "style": "Italic"
+              }
+            ],
+            "key": "5lnqe",
+            "text": "Built with 🧡 using Agno.",
+            "type": "unstyled"
+          }
+        ],
+        "entityMap": [
+          {
+            "key": "4",
+            "value": {
+              "data": {
+                "url": "https://docs.agno.com/"
+              },
+              "mutability": "Mutable",
+              "type": "LINK"
+            }
+          },
+          {
+            "key": "5",
+            "value": {
+              "data": {},
+              "mutability": "Immutable",
+              "type": "DIVIDER"
+            }
+          },
+          {
+            "key": "6",
+            "value": {
+              "data": {
+                "url": "https://abs.twimg.com/emoji/v2/svg/1f9e1.svg"
+              },
+              "mutability": "Immutable",
+              "type": "TWEMOJI"
+            }
+          },
+          {
+            "key": "1",
+            "value": {
+              "data": {
+                "entityKey": "c9f58c1d-2573-433c-bd21-a00aa75d0137",
+                "mediaItems": [
+                  {
+                    "localMediaId": "11",
+                    "mediaCategory": "AmplifyVideo",
+                    "mediaId": "2053880894541508608"
+                  }
+                ]
+              },
+              "mutability": "Immutable",
+              "type": "MEDIA"
+            }
+          },
+          {
+            "key": "0",
+            "value": {
+              "data": {
+                "entityKey": "d2f20501-c257-49f7-8e3d-b10fea4fae6f",
+                "mediaItems": [
+                  {
+                    "localMediaId": "9",
+                    "mediaCategory": "AmplifyVideo",
+                    "mediaId": "2053880483105435649"
+                  }
+                ]
+              },
+              "mutability": "Immutable",
+              "type": "MEDIA"
+            }
+          },
+          {
+            "key": "2",
+            "value": {
+              "data": {
+                "url": "https://github.com/agno-agi/agent-platform-railway"
+              },
+              "mutability": "Mutable",
+              "type": "LINK"
+            }
+          },
+          {
+            "key": "7",
+            "value": {
+              "data": {
+                "url": "https://github.com/agno-agi/agno"
+              },
+              "mutability": "Mutable",
+              "type": "LINK"
+            }
+          },
+          {
+            "key": "3",
+            "value": {
+              "data": {
+                "url": "https://github.com/agno-agi/agent-platform-railway"
+              },
+              "mutability": "Mutable",
+              "type": "LINK"
+            }
+          }
+        ]
+      },
+      "media_entities": [
+        {
+          "id": "QXBpTWVkaWE6DAAECgABHIDZat6bcAEKAAIAAAAAAAAAAAAA",
+          "media_id": "2053880483105435649",
+          "media_info": {
+            "__typename": "ApiVideo",
+            "aspect_ratio": {
+              "denominator": 270,
+              "numerator": 433
+            },
+            "duration_millis": 43316,
+            "preview_image": {
+              "color_info": {
+                "palette": [
+                  {
+                    "percentage": 84.01,
+                    "rgb": {
+                      "blue": 30,
+                      "green": 30,
+                      "red": 30
+                    }
+                  },
+                  {
+                    "percentage": 10.01,
+                    "rgb": {
+                      "blue": 122,
+                      "green": 46,
+                      "red": 26
+                    }
+                  },
+                  {
+                    "percentage": 2.83,
+                    "rgb": {
+                      "blue": 179,
+                      "green": 97,
+                      "red": 45
+                    }
+                  },
+                  {
+                    "percentage": 0.93,
+                    "rgb": {
+                      "blue": 145,
+                      "green": 38,
+                      "red": 59
+                    }
+                  },
+                  {
+                    "percentage": 0.8,
+                    "rgb": {
+                      "blue": 62,
+                      "green": 25,
+                      "red": 16
+                    }
+                  }
+                ]
+              },
+              "original_img_height": 1080,
+              "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2053880483105435649/img/_WbnQwDjYIE_HKHs.jpg",
+              "original_img_width": 1732
+            },
+            "variants": [
+              {
+                "bit_rate": 10368000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880483105435649/vid/avc1/1732x1080/6PFkdK1mUn1VMfWm.mp4?tag=27"
+              },
+              {
+                "content_type": "application/x-mpegURL",
+                "url": "https://video.twimg.com/amplify_video/2053880483105435649/pl/xjjKXg6Y-vsWpC3C.m3u8?tag=27"
+              },
+              {
+                "bit_rate": 832000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880483105435649/vid/avc1/576x360/g4QeXaoNHfM7K3x3.mp4?tag=27"
+              },
+              {
+                "bit_rate": 2176000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880483105435649/vid/avc1/1154x720/9vMi3_NCz3KIkbhM.mp4?tag=27"
+              },
+              {
+                "bit_rate": 256000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880483105435649/vid/avc1/432x270/Kq6repQrPO8B7wnX.mp4?tag=27"
+              }
+            ]
+          },
+          "media_key": "13_2053880483105435649"
+        },
+        {
+          "id": "QXBpTWVkaWE6DAAECgABHIDZyqobsAAKAAIAAAAAAAAAAAAA",
+          "media_id": "2053880894541508608",
+          "media_info": {
+            "__typename": "ApiVideo",
+            "aspect_ratio": {
+              "denominator": 270,
+              "numerator": 433
+            },
+            "duration_millis": 28550,
+            "preview_image": {
+              "color_info": {
+                "palette": [
+                  {
+                    "percentage": 84.04,
+                    "rgb": {
+                      "blue": 30,
+                      "green": 30,
+                      "red": 30
+                    }
+                  },
+                  {
+                    "percentage": 10.02,
+                    "rgb": {
+                      "blue": 122,
+                      "green": 46,
+                      "red": 26
+                    }
+                  },
+                  {
+                    "percentage": 2.83,
+                    "rgb": {
+                      "blue": 179,
+                      "green": 97,
+                      "red": 45
+                    }
+                  },
+                  {
+                    "percentage": 0.92,
+                    "rgb": {
+                      "blue": 145,
+                      "green": 38,
+                      "red": 59
+                    }
+                  },
+                  {
+                    "percentage": 0.8,
+                    "rgb": {
+                      "blue": 62,
+                      "green": 25,
+                      "red": 16
+                    }
+                  }
+                ]
+              },
+              "original_img_height": 1080,
+              "original_img_url": "https://pbs.twimg.com/amplify_video_thumb/2053880894541508608/img/EjRGjy75F-ChJXkW.jpg",
+              "original_img_width": 1732
+            },
+            "variants": [
+              {
+                "bit_rate": 256000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880894541508608/vid/avc1/432x270/gVl0TZCwCjvL6yFg.mp4?tag=27"
+              },
+              {
+                "bit_rate": 10368000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880894541508608/vid/avc1/1732x1080/4bMAclZ2d4zFlVWx.mp4?tag=27"
+              },
+              {
+                "content_type": "application/x-mpegURL",
+                "url": "https://video.twimg.com/amplify_video/2053880894541508608/pl/kkVQ2rn_eMiBdr1c.m3u8?tag=27"
+              },
+              {
+                "bit_rate": 2176000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880894541508608/vid/avc1/1154x720/s2iTS0Oez3a9_I2R.mp4?tag=27"
+              },
+              {
+                "bit_rate": 832000,
+                "content_type": "video/mp4",
+                "url": "https://video.twimg.com/amplify_video/2053880894541508608/vid/avc1/576x360/AFqRV_G7aq0PWChz.mp4?tag=27"
+              }
+            ]
+          },
+          "media_key": "13_2053880894541508608"
+        }
+      ]
+    },
+    "twitter_card": "tweet",
+    "color": null,
+    "provider": "twitter",
+    "reposted_by": null
+  }
+}

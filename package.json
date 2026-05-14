@@ -1,0 +1,39 @@
+{
+  "name": "xarticle2feishu",
+  "version": "0.1.0",
+  "description": "Generate a Feishu document from an x.com article URL via a remote MCP server.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "tsc --noEmit -p tsconfig.json"
+  },
+  "keywords": [
+    "x.com",
+    "twitter",
+    "feishu",
+    "mcp"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@cfworker/json-schema": "^4.1.1",
+    "@modelcontextprotocol/client": "^2.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
