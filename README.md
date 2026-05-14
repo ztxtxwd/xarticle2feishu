@@ -138,11 +138,12 @@ console.log(result.docUrl);
 
 ## GitHub Action：外部触发转换
 
-仓库内提供了一个 `repository_dispatch` workflow：
+仓库内提供了一个可外部触发的 workflow：
 
 - 文件：`.github/workflows/convert-x-article.yml`
-- 事件类型：`convert_x_article`
-- 外部调用方只需要提供：`articleUrl`
+- 支持事件：`repository_dispatch`、`workflow_dispatch`
+- 必填参数：`articleUrl`
+- 可选参数：`existingDocumentUrl`，传入已有飞书文档链接后会复用该文档并覆盖内容
 
 ### 需要配置的 GitHub Secrets
 
@@ -157,7 +158,8 @@ console.log(result.docUrl);
 {
   "event_type": "convert_x_article",
   "client_payload": {
-    "articleUrl": "https://x.com/ashpreetbedi/status/2053885390717890757"
+    "articleUrl": "https://x.com/ashpreetbedi/status/2053885390717890757",
+    "existingDocumentUrl": "https://li.feishu.cn/docx/your-existing-document"
   }
 }
 ```
@@ -168,7 +170,15 @@ console.log(result.docUrl);
 gh api repos/ztxtxwd/xarticle2feishu/dispatches \
   --method POST \
   -f event_type=convert_x_article \
-  -F client_payload:='{"articleUrl":"https://x.com/ashpreetbedi/status/2053885390717890757"}'
+  -F client_payload:='{"articleUrl":"https://x.com/ashpreetbedi/status/2053885390717890757","existingDocumentUrl":"https://li.feishu.cn/docx/your-existing-document"}'
+```
+
+### 在 GitHub Actions 页面手动触发
+
+```bash
+gh workflow run convert-x-article.yml \
+  -f articleUrl='https://x.com/ashpreetbedi/status/2053885390717890757' \
+  -f existingDocumentUrl='https://li.feishu.cn/docx/your-existing-document'
 ```
 
 ### Action 结束后的通知

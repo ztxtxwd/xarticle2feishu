@@ -4,6 +4,16 @@ on:
   repository_dispatch:
     types:
       - convert_x_article
+  workflow_dispatch:
+    inputs:
+      articleUrl:
+        description: X article URL
+        required: true
+        type: string
+      existingDocumentUrl:
+        description: Existing Feishu document URL to update
+        required: false
+        type: string
 
 jobs:
   convert:
@@ -34,8 +44,8 @@ jobs:
       - name: Convert article
         id: convert
         env:
-          ARTICLE_URL: ${{ github.event.client_payload.articleUrl }}
-          EXISTING_DOCUMENT_URL: ${{ github.event.client_payload.existingDocumentUrl }}
+          ARTICLE_URL: ${{ github.event.client_payload.articleUrl || inputs.articleUrl }}
+          EXISTING_DOCUMENT_URL: ${{ github.event.client_payload.existingDocumentUrl || inputs.existingDocumentUrl }}
           FEISHU_MCP_SERVER_URL: ${{ secrets.FEISHU_MCP_SERVER_URL }}
           FEISHU_BOT_APP_ID: ${{ secrets.FEISHU_BOT_APP_ID }}
           FEISHU_BOT_APP_SECRET: ${{ secrets.FEISHU_BOT_APP_SECRET }}
