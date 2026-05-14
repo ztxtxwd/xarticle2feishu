@@ -1,6 +1,6 @@
 {
   "name": "xarticle2feishu",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Generate a Feishu document from an x.com article URL via a remote MCP server.",
   "type": "module",
   "author": "赵天雄",
