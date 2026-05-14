@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { uploadFileToDocument } from '../src/feishuBotHttp.js';
+import { fetchTenantAccessToken, uploadFileToDocument } from '../src/feishuBotHttp.js';
 
 const uploadInputBase = {
   documentId: 'doc-token',
@@ -10,6 +10,39 @@ const uploadInputBase = {
 
 afterEach(() => {
   vi.restoreAllMocks();
+});
+
+describe('fetchTenantAccessToken', () => {
+  it('fetches tenant access token with app credentials', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ code: 0, msg: 'ok', tenant_access_token: 'tenant-token', expire: 7200 }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const result = await fetchTenantAccessToken('cli_app', 'secret');
+
+    expect(result).toEqual({ tenantAccessToken: 'tenant-token', expire: 7200 });
+    expect(fetchMock).toHaveBeenCalledWith('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify({
+        app_id: 'cli_app',
+        app_secret: 'secret',
+      }),
+    });
+  });
+
+  it('throws when tenant access token fetch fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      json: async () => ({ code: 99991663, msg: 'invalid app secret' }),
+    }));
+
+    await expect(fetchTenantAccessToken('cli_app', 'bad-secret')).rejects.toThrow('Failed to fetch tenant access token');
+  });
 });
 
 describe('uploadFileToDocument', () => {

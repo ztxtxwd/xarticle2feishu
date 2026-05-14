@@ -10,7 +10,7 @@
 4. 通过远程 Feishu MCP Server 创建文档与正文块。
 5. 通过飞书开放平台上传图片 / 视频文件，并替换占位块。
 
-这是一个 **程序化调用的 TypeScript 库**，当前**不包含 CLI**。
+这是一个 **程序化调用的 TypeScript 库**，同时仓库内也提供了一个可被外部触发的 GitHub Actions 工作流，用于把 X 文章自动转换成飞书文档。
 
 ## 功能特性
 
@@ -27,6 +27,9 @@
 - 支持图片上传并替换为飞书原生图片块。
 - 支持视频文件上传，并以飞书文件视图块方式插入。
 - 支持将 fenced markdown code block 转成飞书代码块。
+- 支持使用飞书 `app_id` / `app_secret` 换取 `tenant_access_token`。
+- 支持通过 `repository_dispatch` 触发 GitHub Action 执行转换。
+- 支持在 Action 结束后通过飞书 webhook 机器人发送成功 / 失败通知。
 - 当正文为空或所有块都被过滤时，会自动写入文档标题，避免创建空文档。
 
 ## 工作原理
@@ -38,6 +41,7 @@
 - `src/mapping/renderDocumentPlan.ts`：生成文档操作计划。
 - `src/mapping/renderFeishuBlocks.ts`：生成飞书 `descendant.create` 所需块结构，并产出媒体上传计划。
 - `src/runtime/createFeishuDocFromXArticle.ts`：连接 Feishu MCP、创建文档、上传媒体、替换占位块。
+- `src/cli/runRepositoryDispatchConversion.ts`：作为 GitHub Action 的运行包装入口，负责取 token、执行转换、写出 summary 并发送 webhook 通知。
 
 ## 安装
 
@@ -76,17 +80,22 @@ https://open.feishu.cn/mcp/stream/...
 
 库会优先尝试 **Streamable HTTP**，失败后回退到 **SSE**。
 
-### 3) 机器人 tenant access token
+### 3) 飞书机器人认证信息
 
-该 token 用于：
+你可以选择以下两种方式之一：
+
+- 直接提供 `tenant_access_token`
+- 提供 `app_id` + `app_secret`，由本库调用飞书接口换取 `tenant_access_token`
+
+该 token / 凭证用于：
 
 - 获取 bot open id
 - 给新建文档授权
 - 上传图片 / 文件到飞书文档
 
-本库**不负责申请或刷新 token**，需要你在调用前自行获取。
-
 ## 快速开始
+
+### 直接传 tenant access token
 
 ```ts
 import { createFeishuDocFromXArticle } from 'xarticle2feishu';
@@ -100,6 +109,25 @@ const result = await createFeishuDocFromXArticle({
 console.log(result.docUrl);
 ```
 
+### 先用 app_id / app_secret 获取 tenant access token
+
+```ts
+import { createFeishuDocFromXArticle, fetchTenantAccessToken } from 'xarticle2feishu';
+
+const { tenantAccessToken } = await fetchTenantAccessToken(
+  process.env.FEISHU_BOT_APP_ID!,
+  process.env.FEISHU_BOT_APP_SECRET!,
+);
+
+const result = await createFeishuDocFromXArticle({
+  articleUrl: 'https://x.com/ashpreetbedi/status/2053885390717890757',
+  feishuMcpServerUrl: 'https://open.feishu.cn/mcp/stream/your-server-id',
+  botTenantAccessToken: tenantAccessToken,
+});
+
+console.log(result.docUrl);
+```
+
 返回值：
 
 ```ts
@@ -107,6 +135,54 @@ console.log(result.docUrl);
   docUrl: string;
 }
 ```
+
+## GitHub Action：外部触发转换
+
+仓库内提供了一个 `repository_dispatch` workflow：
+
+- 文件：`.github/workflows/convert-x-article.yml`
+- 事件类型：`convert_x_article`
+- 外部调用方只需要提供：`articleUrl`
+
+### 需要配置的 GitHub Secrets
+
+- `FEISHU_MCP_SERVER_URL`
+- `FEISHU_BOT_APP_ID`
+- `FEISHU_BOT_APP_SECRET`
+- `FEISHU_WEBHOOK_URL`
+
+### dispatch payload
+
+```json
+{
+  "event_type": "convert_x_article",
+  "client_payload": {
+    "articleUrl": "https://x.com/ashpreetbedi/status/2053885390717890757"
+  }
+}
+```
+
+### 用 GitHub API 触发
+
+```bash
+gh api repos/ztxtxwd/xarticle2feishu/dispatches \
+  --method POST \
+  -f event_type=convert_x_article \
+  -F client_payload:='{"articleUrl":"https://x.com/ashpreetbedi/status/2053885390717890757"}'
+```
+
+### Action 结束后的通知
+
+无论成功还是失败，workflow 都会尝试通过飞书 webhook 机器人发送一条文本通知，包含：
+
+- 执行结果
+- 原始文章 URL
+- 飞书文档链接（成功时）
+- 错误信息（失败时）
+- GitHub Actions run 链接
+- 仓库名、事件名、时间戳等调试信息
+
+如果 webhook 通知失败，不会覆盖主转换任务的最终状态。
 
 ## API
 
@@ -124,6 +200,14 @@ type CreateFeishuDocFromXArticleInput = {
 type CreateFeishuDocFromXArticleResult = {
   docUrl: string;
 };
+```
+
+### `fetchTenantAccessToken(appId, appSecret)`
+
+通过飞书自建应用的 `app_id` / `app_secret` 获取 `tenant_access_token`。
+
+```ts
+const { tenantAccessToken, expire } = await fetchTenantAccessToken(appId, appSecret);
 ```
 
 ### `parseXArticleUrl(articleUrl)`
@@ -159,6 +243,10 @@ parseXArticleUrl('https://x.com/ashpreetbedi/status/2053885390717890757');
 
 读取当前 bot 的 `openId`。
 
+### `sendFeishuWebhookMessage(input)`
+
+向飞书自定义机器人 webhook 发送文本通知消息。
+
 ### `uploadImageToDocument(input)`
 
 把图片上传到飞书文档块。
@@ -169,12 +257,19 @@ parseXArticleUrl('https://x.com/ashpreetbedi/status/2053885390717890757');
 
 ```ts
 export { createFeishuDocFromXArticle } from './runtime/createFeishuDocFromXArticle.js';
-export type { CreateFeishuDocFromXArticleInput, CreateFeishuDocFromXArticleResult } from './types.js';
+export type {
+  CreateFeishuDocFromXArticleInput,
+  CreateFeishuDocFromXArticleResult,
+  FeishuWebhookMessageInput,
+  FeishuTenantAccessTokenResult,
+  RepositoryDispatchConversionSummary,
+} from './types.js';
 export { parseXArticleUrl, fetchFxTwitterArticle } from './fetchFxTwitterArticle.js';
 export { normalizeArticle } from './mapping/normalizeArticle.js';
 export { renderDocumentPlan } from './mapping/renderDocumentPlan.js';
 export { renderFeishuBlocks } from './mapping/renderFeishuBlocks.js';
-export { fetchBotInfo, uploadImageToDocument } from './feishuBotHttp.js';
+export { fetchBotInfo, fetchTenantAccessToken, uploadImageToDocument } from './feishuBotHttp.js';
+export { sendFeishuWebhookMessage } from './feishuWebhook.js';
 ```
 
 ## 需要的 Feishu MCP 工具
@@ -218,6 +313,7 @@ export { fetchBotInfo, uploadImageToDocument } from './feishuBotHttp.js';
 - 依赖 `fxtwitter` 返回 `tweet.article`；普通推文不保证可用。
 - 依赖远程 Feishu MCP Server 的工具可用性与权限配置。
 - 图片 / 视频需要 bot token 具备对应文档与素材上传权限。
+- GitHub Action 外部触发模式当前只支持 `repository_dispatch`。
 - 运行时依赖原生 `fetch` / `FormData` / `Blob`，建议使用 **Node.js 18+**。
 - 视频当前会以文件视图方式插入，而不是播放器嵌入。
 - 链接会在写入飞书前做 URL 编码，以适配飞书文本元素格式。
@@ -265,6 +361,8 @@ npm run test:watch
 - markdown fenced code block 映射
 - 原生图片占位块与上传计划
 - 飞书媒体上传 HTTP 流程
+- tenant access token 获取
+- 飞书 webhook 文本消息发送
 
 测试样例数据见：
 

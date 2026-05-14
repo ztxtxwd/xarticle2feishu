@@ -3,6 +3,7 @@ import type {
   FeishuMediaUploadInput,
   FeishuMediaUploadResult,
   FeishuMultipartUploadPrepareResult,
+  FeishuTenantAccessTokenResult,
 } from './types.js';
 
 const FEISHU_UPLOAD_ALL_LIMIT_BYTES = 20 * 1024 * 1024;
@@ -24,6 +25,13 @@ type FeishuMultipartPreparePayload = {
     block_num?: number;
   };
   msg: string;
+};
+
+type FeishuTenantAccessTokenPayload = {
+  code: number;
+  msg: string;
+  tenant_access_token?: string;
+  expire?: number;
 };
 
 function authorizationHeader(botTenantAccessToken: string): Record<string, string> {
@@ -75,6 +83,29 @@ function parseMultipartPreparePayload(payload: FeishuMultipartPreparePayload): F
     uploadId,
     blockSize,
     blockNum,
+  };
+}
+
+export async function fetchTenantAccessToken(appId: string, appSecret: string): Promise<FeishuTenantAccessTokenResult> {
+  const response = await fetch('https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      app_id: appId,
+      app_secret: appSecret,
+    }),
+  });
+
+  const payload = await response.json() as FeishuTenantAccessTokenPayload;
+  if (!response.ok || payload.code !== 0 || !payload.tenant_access_token || typeof payload.expire !== 'number') {
+    throw new Error(`Failed to fetch tenant access token: ${JSON.stringify(payload)}`);
+  }
+
+  return {
+    tenantAccessToken: payload.tenant_access_token,
+    expire: payload.expire,
   };
 }
 

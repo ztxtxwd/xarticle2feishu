@@ -265,6 +265,11 @@ export type FeishuBotInfo = {
   openId: string;
 };
 
+export type FeishuTenantAccessTokenResult = {
+  tenantAccessToken: string;
+  expire: number;
+};
+
 export type FeishuDocumentPermissionInput = {
   documentId: string;
   openId: string;
@@ -299,4 +304,18 @@ export type FeishuReplaceFileInput = {
   documentId: string;
   blockId: string;
   fileToken: string;
+};
+
+export type FeishuWebhookMessageInput = {
+  webhookUrl: string;
+  title: string;
+  lines: string[];
+};
+
+export type RepositoryDispatchConversionSummary = {
+  status: 'success' | 'failure';
+  articleUrl: string;
+  docUrl?: string;
+  errorMessage?: string;
+  runUrl?: string;
 };

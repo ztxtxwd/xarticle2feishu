@@ -1,0 +1,42 @@
+name: Convert X article to Feishu document
+
+on:
+  repository_dispatch:
+    types:
+      - convert_x_article
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.convert.outputs.status }}
+      article_url: ${{ steps.convert.outputs.article_url }}
+      doc_url: ${{ steps.convert.outputs.doc_url }}
+      error_message: ${{ steps.convert.outputs.error_message }}
+      run_url: ${{ steps.convert.outputs.run_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Convert article
+        id: convert
+        env:
+          ARTICLE_URL: ${{ github.event.client_payload.articleUrl }}
+          FEISHU_MCP_SERVER_URL: ${{ secrets.FEISHU_MCP_SERVER_URL }}
+          FEISHU_BOT_APP_ID: ${{ secrets.FEISHU_BOT_APP_ID }}
+          FEISHU_BOT_APP_SECRET: ${{ secrets.FEISHU_BOT_APP_SECRET }}
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+        run: node ./dist/src/cli/runRepositoryDispatchConversion.js
