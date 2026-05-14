@@ -7,7 +7,6 @@ function textSpans(text: string): RichTextSpan[] {
 export function renderDocumentPlan(article: NormalizedArticle): DocumentPlan {
   const operations: DocumentPlanOperation[] = [
     { type: 'createDocument', title: article.title },
-    { type: 'appendHeading', level: 1, spans: textSpans(article.title) },
     { type: 'appendParagraph', spans: textSpans(`Author: ${article.authorName} (@${article.authorHandle})`) },
     { type: 'appendParagraph', spans: [{ text: 'Original article', marks: [{ type: 'link', url: article.articleUrl }] }] },
   ];

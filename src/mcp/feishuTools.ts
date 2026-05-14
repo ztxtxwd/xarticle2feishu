@@ -7,7 +7,7 @@ import type {
   FeishuReplaceImageInput,
 } from '../types.js';
 
-const DOC_URL_BASE = 'https://docs.feishu.cn/docx/';
+const DOC_URL_BASE = 'https://li.feishu.cn/docx/';
 const CREATE_DOCUMENT_TOOL = 'docx_v1_document_create';
 const CREATE_DESCENDANT_BLOCKS_TOOL = 'docx_v1_documentBlockDescendant_create';
 const PATCH_BLOCK_TOOL = 'docx_v1_documentBlock_patch';

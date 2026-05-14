@@ -68,6 +68,11 @@ describe('renderDocumentPlan', () => {
       type: 'createDocument',
       title: 'Auto-Improving Software',
     });
+    expect(plan.operations[1]).toEqual({
+      type: 'appendParagraph',
+      spans: [{ text: 'Author: Ashpreet Bedi (@ashpreetbedi)', marks: [] }],
+    });
+    expect(plan.operations.some((op) => op.type === 'appendHeading' && op.level === 1 && op.spans.length === 1 && op.spans[0]?.text === 'Auto-Improving Software')).toBe(false);
     expect(plan.operations.some((op) => op.type === 'appendImage')).toBe(true);
     expect(plan.operations.some((op) => op.type === 'appendVideoFallback')).toBe(true);
     expect(plan.operations.some((op) => op.type === 'appendDivider')).toBe(true);

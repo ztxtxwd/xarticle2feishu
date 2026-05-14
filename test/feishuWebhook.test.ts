@@ -16,7 +16,7 @@ describe('sendFeishuWebhookMessage', () => {
     await sendFeishuWebhookMessage({
       webhookUrl: 'https://example.com/hook',
       title: 'X article conversion succeeded',
-      lines: ['articleUrl: https://x.com/demo/status/1', 'docUrl: https://docs.feishu.cn/docx/abc'],
+      lines: ['articleUrl: https://x.com/demo/status/1', 'docUrl: https://li.feishu.cn/docx/abc'],
     });
 
     expect(fetchMock).toHaveBeenCalledWith('https://example.com/hook', {
@@ -27,7 +27,7 @@ describe('sendFeishuWebhookMessage', () => {
       body: JSON.stringify({
         msg_type: 'text',
         content: {
-          text: 'X article conversion succeeded\narticleUrl: https://x.com/demo/status/1\ndocUrl: https://docs.feishu.cn/docx/abc',
+          text: 'X article conversion succeeded\narticleUrl: https://x.com/demo/status/1\ndocUrl: https://li.feishu.cn/docx/abc',
         },
       }),
     });
