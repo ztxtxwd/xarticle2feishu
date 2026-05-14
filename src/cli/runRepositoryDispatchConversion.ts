@@ -64,31 +64,20 @@ function writeGithubSummary(summary: RepositoryDispatchConversionSummary): void 
 
 async function notify(summary: RepositoryDispatchConversionSummary): Promise<void> {
   const webhookUrl = requiredEnv('FEISHU_WEBHOOK_URL');
-  const repository = process.env.GITHUB_REPOSITORY ?? 'unknown';
-  const eventName = process.env.GITHUB_EVENT_NAME ?? 'repository_dispatch';
-  const timestamp = new Date().toISOString();
 
-  const lines = [
-    `repository: ${repository}`,
-    `event: ${eventName}`,
-    `articleUrl: ${summary.articleUrl}`,
-    `timestamp: ${timestamp}`,
-  ];
-
-  if (summary.docUrl) {
-    lines.push(`docUrl: ${summary.docUrl}`);
-  }
-  if (summary.runUrl) {
-    lines.push(`runUrl: ${summary.runUrl}`);
-  }
-  if (summary.errorMessage) {
-    lines.push(`error: ${summary.errorMessage}`);
+  if (summary.status === 'success') {
+    await sendFeishuWebhookMessage({
+      webhookUrl,
+      title: '',
+      lines: [summary.docUrl ?? ''],
+    });
+    return;
   }
 
   await sendFeishuWebhookMessage({
     webhookUrl,
-    title: summary.status === 'success' ? 'X article conversion succeeded' : 'X article conversion failed',
-    lines,
+    title: '文章转飞书文档失败',
+    lines: [`失败详情：${summary.errorMessage ?? '未知错误'}`],
   });
 }
 

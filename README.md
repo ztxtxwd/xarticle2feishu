@@ -183,14 +183,10 @@ gh workflow run convert-x-article.yml \
 
 ### Action 结束后的通知
 
-无论成功还是失败，workflow 都会尝试通过飞书 webhook 机器人发送一条文本通知，包含：
+无论成功还是失败，workflow 都会尝试通过飞书 webhook 机器人发送一条文本通知：
 
-- 执行结果
-- 原始文章 URL
-- 飞书文档链接（成功时）
-- 错误信息（失败时）
-- GitHub Actions run 链接
-- 仓库名、事件名、时间戳等调试信息
+- 成功时：只发送飞书文档链接
+- 失败时：发送中文失败说明
 
 如果 webhook 通知失败，不会覆盖主转换任务的最终状态。
 

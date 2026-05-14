@@ -5,7 +5,10 @@ function escapeText(value: string): string {
 }
 
 export async function sendFeishuWebhookMessage(input: FeishuWebhookMessageInput): Promise<void> {
-  const text = [input.title, ...input.lines].map((line) => escapeText(line)).join('\n');
+  const text = [input.title, ...input.lines]
+    .filter((line) => line.length > 0)
+    .map((line) => escapeText(line))
+    .join('\n');
 
   const response = await fetch(input.webhookUrl, {
     method: 'POST',
