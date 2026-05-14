@@ -35,6 +35,7 @@ jobs:
         id: convert
         env:
           ARTICLE_URL: ${{ github.event.client_payload.articleUrl }}
+          EXISTING_DOCUMENT_URL: ${{ github.event.client_payload.existingDocumentUrl }}
           FEISHU_MCP_SERVER_URL: ${{ secrets.FEISHU_MCP_SERVER_URL }}
           FEISHU_BOT_APP_ID: ${{ secrets.FEISHU_BOT_APP_ID }}
           FEISHU_BOT_APP_SECRET: ${{ secrets.FEISHU_BOT_APP_SECRET }}

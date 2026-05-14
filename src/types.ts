@@ -255,6 +255,7 @@ export type CreateFeishuDocFromXArticleInput = {
   articleUrl: string;
   feishuMcpServerUrl: string;
   botTenantAccessToken: string;
+  existingDocumentUrl?: string;
 };
 
 export type CreateFeishuDocFromXArticleResult = {

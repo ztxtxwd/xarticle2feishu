@@ -18,7 +18,13 @@ export async function createFeishuDocFromXArticle(
 
   try {
     const feishuTools = await FeishuTools.create(client);
-    const { documentId, docUrl } = await feishuTools.createDocument(plan.title);
+    const targetDocument = input.existingDocumentUrl
+      ? feishuTools.resolveDocumentFromUrl(input.existingDocumentUrl)
+      : await feishuTools.createDocument(plan.title);
+    const { documentId, docUrl } = targetDocument;
+    if (input.existingDocumentUrl) {
+      await feishuTools.clearDocumentRootChildren(documentId);
+    }
     const relations = await feishuTools.createDescendantBlocks(documentId, rendered);
 
     const botOpenId = (await fetchBotInfo(input.botTenantAccessToken)).openId;

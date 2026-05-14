@@ -9,7 +9,9 @@ import type {
 
 const DOC_URL_BASE = 'https://li.feishu.cn/docx/';
 const CREATE_DOCUMENT_TOOL = 'docx_v1_document_create';
+const LIST_DOCUMENT_BLOCKS_TOOL = 'docx_v1_documentBlock_list';
 const CREATE_DESCENDANT_BLOCKS_TOOL = 'docx_v1_documentBlockDescendant_create';
+const DELETE_BLOCK_CHILDREN_TOOL = 'docx_v1_documentBlockChildren_batchDelete';
 const PATCH_BLOCK_TOOL = 'docx_v1_documentBlock_patch';
 const CREATE_PERMISSION_MEMBER_TOOL = 'drive_v1_permissionMember_create';
 
@@ -18,6 +20,52 @@ type ToolTextResult = {
   structuredContent?: Record<string, unknown>;
   isError?: boolean;
 };
+
+type FeishuBlockSummary = {
+  blockId: string;
+  parentId?: string;
+  children: string[];
+};
+
+function normalizeDocUrl(documentId: string): string {
+  return `${DOC_URL_BASE}${documentId}`;
+}
+
+function parseDocumentId(docUrl: string): string {
+  let url: URL;
+  try {
+    url = new URL(docUrl);
+  } catch {
+    throw new Error(`Invalid Feishu document URL: ${docUrl}`);
+  }
+
+  const match = url.pathname.match(/^\/docx\/([^/]+)\/?$/);
+  const documentId = match?.[1];
+  if (!documentId) {
+    throw new Error(`Invalid Feishu document URL: ${docUrl}`);
+  }
+
+  return documentId;
+}
+
+function parseBlockSummaries(data: Record<string, unknown>): { items: FeishuBlockSummary[]; pageToken?: string } {
+  const items = Array.isArray(data.items) ? data.items : [];
+  const pageToken = typeof data.page_token === 'string' && data.page_token ? data.page_token : undefined;
+
+  return {
+    items: items.map((item) => {
+      const block = item as Record<string, unknown>;
+      const children = Array.isArray(block.children) ? block.children.filter((child): child is string => typeof child === 'string') : [];
+      const parentId = typeof block.parent_id === 'string' && block.parent_id ? block.parent_id : undefined;
+      return {
+        blockId: String(block.block_id),
+        parentId,
+        children,
+      };
+    }),
+    pageToken,
+  };
+}
 
 function textContent(result: ToolTextResult): string {
   const text = result.content
@@ -101,7 +149,61 @@ export class FeishuTools {
       throw new Error(`Create document result missing document_id: ${JSON.stringify(payload)}`);
     }
 
-    return { documentId, docUrl: `${DOC_URL_BASE}${documentId}` };
+    return { documentId, docUrl: normalizeDocUrl(documentId) };
+  }
+
+  resolveDocumentFromUrl(docUrl: string): { documentId: string; docUrl: string } {
+    const documentId = parseDocumentId(docUrl);
+    return { documentId, docUrl: normalizeDocUrl(documentId) };
+  }
+
+  async listDocumentBlocks(documentId: string, pageToken?: string): Promise<{ items: FeishuBlockSummary[]; pageToken?: string }> {
+    this.requireTool(LIST_DOCUMENT_BLOCKS_TOOL);
+    const result = await this.client.callTool({
+      name: LIST_DOCUMENT_BLOCKS_TOOL,
+      arguments: {
+        path: {
+          document_id: documentId,
+        },
+        query: {
+          page_size: 500,
+          ...(pageToken ? { page_token: pageToken } : {}),
+        },
+      },
+    });
+
+    return parseBlockSummaries(getToolResultData(parseJsonResult(result)));
+  }
+
+  async deleteBlockChildren(documentId: string, blockId: string, startIndex: number, endIndex: number): Promise<void> {
+    this.requireTool(DELETE_BLOCK_CHILDREN_TOOL);
+    const result = await this.client.callTool({
+      name: DELETE_BLOCK_CHILDREN_TOOL,
+      arguments: {
+        path: {
+          document_id: documentId,
+          block_id: blockId,
+        },
+        body: {
+          start_index: startIndex,
+          end_index: endIndex,
+        },
+      },
+    });
+
+    getToolResultData(parseJsonResult(result));
+  }
+
+  async clearDocumentRootChildren(documentId: string): Promise<void> {
+    for (;;) {
+      const rootBlock = await this.findRootBlock(documentId);
+      const childCount = rootBlock.children.length;
+      if (childCount === 0) {
+        return;
+      }
+
+      await this.deleteBlockChildren(documentId, documentId, 0, Math.min(childCount, 500));
+    }
   }
 
   async createDescendantBlocks(documentId: string, request: FeishuDescendantRequest): Promise<FeishuBlockIdRelation[]> {
@@ -188,6 +290,21 @@ export class FeishuTools {
     });
 
     getToolResultData(parseJsonResult(result));
+  }
+
+  private async findRootBlock(documentId: string): Promise<FeishuBlockSummary> {
+    let pageToken: string | undefined;
+
+    do {
+      const page = await this.listDocumentBlocks(documentId, pageToken);
+      const rootBlock = page.items.find((block) => block.blockId === documentId);
+      if (rootBlock) {
+        return rootBlock;
+      }
+      pageToken = page.pageToken;
+    } while (pageToken);
+
+    throw new Error(`Root block not found for document ${documentId}`);
   }
 
   private requireTool(name: string): Tool {

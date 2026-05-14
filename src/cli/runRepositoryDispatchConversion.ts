@@ -97,6 +97,7 @@ async function main(): Promise<void> {
   const feishuMcpServerUrl = requiredEnv('FEISHU_MCP_SERVER_URL');
   const appId = requiredEnv('FEISHU_BOT_APP_ID');
   const appSecret = requiredEnv('FEISHU_BOT_APP_SECRET');
+  const existingDocumentUrl = process.env.EXISTING_DOCUMENT_URL;
   const runUrl = optionalRunUrl();
 
   let summary: RepositoryDispatchConversionSummary;
@@ -107,6 +108,7 @@ async function main(): Promise<void> {
       articleUrl,
       feishuMcpServerUrl,
       botTenantAccessToken: tenantAccessToken,
+      ...(existingDocumentUrl ? { existingDocumentUrl } : {}),
     });
 
     summary = {
