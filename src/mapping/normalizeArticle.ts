@@ -232,7 +232,7 @@ export function normalizeArticle(input: FxArticle & { sourceTweetUrl: string; au
     title: input.title,
     authorName: input.authorName,
     authorHandle: input.authorHandle,
-    articleUrl: `https://x.com/${input.authorHandle}/status/${input.id}`,
+    articleUrl: input.sourceTweetUrl,
     sourceTweetUrl: input.sourceTweetUrl,
     previewText: input.preview_text,
     coverImage: input.cover_media?.media_info?.__typename === 'ApiImage'
