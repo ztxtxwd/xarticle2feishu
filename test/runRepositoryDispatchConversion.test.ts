@@ -16,7 +16,7 @@ vi.mock('../src/index.js', () => ({
 
 function setBaseEnv(): void {
   process.env.ARTICLE_URL = 'https://x.com/demo/status/1';
-  process.env.FEISHU_MCP_SERVER_URL = 'https://mcp.example.com';
+  process.env.FEISHU_DOC_OWNER_OPEN_ID = 'ou_test';
   process.env.FEISHU_BOT_APP_ID = 'app-id';
   process.env.FEISHU_BOT_APP_SECRET = 'app-secret';
   process.env.FEISHU_WEBHOOK_URL = 'https://example.com/hook';
@@ -39,7 +39,7 @@ describe('runRepositoryDispatchConversion', () => {
     });
 
     delete process.env.ARTICLE_URL;
-    delete process.env.FEISHU_MCP_SERVER_URL;
+    delete process.env.FEISHU_DOC_OWNER_OPEN_ID;
     delete process.env.FEISHU_BOT_APP_ID;
     delete process.env.FEISHU_BOT_APP_SECRET;
     delete process.env.FEISHU_WEBHOOK_URL;
@@ -67,14 +67,16 @@ describe('runRepositoryDispatchConversion', () => {
   });
 
   it('sends a Chinese failure message when conversion fails', async () => {
-    createFeishuDocFromXArticle.mockRejectedValue(new Error('remote mcp timeout'));
+    createFeishuDocFromXArticle.mockRejectedValue(new Error('feishu transfer owner failed'));
 
-    await expect(import('../src/cli/runRepositoryDispatchConversion.ts')).rejects.toThrow('remote mcp timeout');
+    await expect(import('../src/cli/runRepositoryDispatchConversion.ts')).rejects.toThrow(
+      'feishu transfer owner failed',
+    );
 
     expect(sendFeishuWebhookMessage).toHaveBeenCalledWith({
       webhookUrl: 'https://example.com/hook',
       title: '文章转飞书文档失败',
-      lines: ['失败详情：remote mcp timeout'],
+      lines: ['失败详情：feishu transfer owner failed'],
     });
   });
 });

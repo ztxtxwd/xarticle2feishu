@@ -83,7 +83,7 @@ async function notify(summary: RepositoryDispatchConversionSummary): Promise<voi
 
 async function main(): Promise<void> {
   const articleUrl = requiredEnv('ARTICLE_URL');
-  const feishuMcpServerUrl = requiredEnv('FEISHU_MCP_SERVER_URL');
+  const ownerOpenId = requiredEnv('FEISHU_DOC_OWNER_OPEN_ID');
   const appId = requiredEnv('FEISHU_BOT_APP_ID');
   const appSecret = requiredEnv('FEISHU_BOT_APP_SECRET');
   const existingDocumentUrl = process.env.EXISTING_DOCUMENT_URL;
@@ -95,8 +95,8 @@ async function main(): Promise<void> {
     const { tenantAccessToken } = await fetchTenantAccessToken(appId, appSecret);
     const { docUrl } = await createFeishuDocFromXArticle({
       articleUrl,
-      feishuMcpServerUrl,
       botTenantAccessToken: tenantAccessToken,
+      ownerOpenId,
       ...(existingDocumentUrl ? { existingDocumentUrl } : {}),
     });
 

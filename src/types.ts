@@ -253,8 +253,8 @@ export type FeishuRenderedBlocks = FeishuDescendantRequest & {
 
 export type CreateFeishuDocFromXArticleInput = {
   articleUrl: string;
-  feishuMcpServerUrl: string;
   botTenantAccessToken: string;
+  ownerOpenId: string;
   existingDocumentUrl?: string;
 };
 
@@ -269,12 +269,6 @@ export type FeishuBotInfo = {
 export type FeishuTenantAccessTokenResult = {
   tenantAccessToken: string;
   expire: number;
-};
-
-export type FeishuDocumentPermissionInput = {
-  documentId: string;
-  openId: string;
-  documentType: 'docx';
 };
 
 export type FeishuMediaUploadInput = {
@@ -293,18 +287,6 @@ export type FeishuMultipartUploadPrepareResult = {
   uploadId: string;
   blockSize: number;
   blockNum: number;
-};
-
-export type FeishuReplaceImageInput = {
-  documentId: string;
-  blockId: string;
-  fileToken: string;
-};
-
-export type FeishuReplaceFileInput = {
-  documentId: string;
-  blockId: string;
-  fileToken: string;
 };
 
 export type FeishuWebhookMessageInput = {

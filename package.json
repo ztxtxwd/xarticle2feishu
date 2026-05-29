@@ -1,7 +1,7 @@
 {
   "name": "xarticle2feishu",
-  "version": "0.2.0",
-  "description": "Generate a Feishu document from an x.com article URL via a remote MCP server.",
+  "version": "0.3.0",
+  "description": "Generate a Feishu document from an x.com article URL via the Feishu OpenAPI.",
   "type": "module",
   "author": "赵天雄",
   "main": "./dist/index.js",
@@ -36,13 +36,11 @@
   "keywords": [
     "x.com",
     "twitter",
-    "feishu",
-    "mcp"
+    "feishu"
   ],
   "license": "MIT",
   "dependencies": {
-    "@cfworker/json-schema": "^4.1.1",
-    "@modelcontextprotocol/client": "^2.0.0-alpha.2"
+    "@cfworker/json-schema": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
