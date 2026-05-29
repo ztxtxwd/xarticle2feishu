@@ -2,20 +2,25 @@
 
 把 `x.com` / `twitter.com` 的 **Article 帖子**转换为飞书文档。
 
+> **v0.3.0 起不再依赖 Feishu MCP Server，全部改为通过 `tenant_access_token` 直连飞书开放平台 OpenAPI。** 入参 `feishuMcpServerUrl` 已移除，新增必填 `ownerOpenId`。
+
 该库会：
 
 1. 通过 `fxtwitter` 拉取 X 帖子的 article 数据。
 2. 将 article 内容归一化为中间结构。
 3. 映射为飞书文档块。
-4. 通过远程 Feishu MCP Server 创建文档与正文块。
+4. 通过飞书开放平台直接 HTTP 创建文档与正文块（不再写到指定文件夹，落在应用根目录）。
 5. 通过飞书开放平台上传图片 / 视频文件，并替换占位块。
+6. 把新建文档的所有者转移给指定用户 `openId`（仅新建路径；复用已有文档时跳过）。
 
 这是一个 **程序化调用的 TypeScript 库**，同时仓库内也提供了一个可被外部触发的 GitHub Actions 工作流，用于把 X 文章自动转换成飞书文档。
 
 ## 功能特性
 
+- 直接通过 `tenant_access_token` 调用飞书开放平台 OpenAPI，不再依赖 MCP server。
 - 支持解析 `x.com` / `twitter.com` 状态页链接。
 - 支持将 article 内容写入飞书文档。
+- 支持把新建文档的所有者转移给指定用户 `openId`（机器人保留可管理权限）。
 - 支持常见文本样式：
   - 段落
   - 一级 / 二级标题
@@ -40,7 +45,8 @@
 - `src/mapping/normalizeArticle.ts`：把原始 article 映射成稳定的中间结构。
 - `src/mapping/renderDocumentPlan.ts`：生成文档操作计划。
 - `src/mapping/renderFeishuBlocks.ts`：生成飞书 `descendant.create` 所需块结构，并产出媒体上传计划。
-- `src/runtime/createFeishuDocFromXArticle.ts`：连接 Feishu MCP、创建文档、上传媒体、替换占位块。
+- `src/feishuDocsHttp.ts`：直连飞书 OpenAPI 的 docx / drive 接口（创建文档、列出/批删块、创建后代块、PATCH 块、转移所有者）。
+- `src/runtime/createFeishuDocFromXArticle.ts`：调用上述 HTTP 接口创建文档、上传媒体、替换占位块、转移所有者。
 - `src/cli/runRepositoryDispatchConversion.ts`：作为 GitHub Action 的运行包装入口，负责取 token、执行转换、写出 summary 并发送 webhook 通知。
 
 ## 安装
@@ -70,15 +76,9 @@ https://x.com/ashpreetbedi/status/2053885390717890757
 
 注意：该项目依赖 `fxtwitter` 返回 `tweet.article`。如果目标帖子不是 article，或上游未返回 article 数据，调用会失败。
 
-### 2) Feishu MCP Server URL
+### 2) 文档新所有者的 openID
 
-例如一个远程 streamable HTTP / SSE MCP 地址：
-
-```text
-https://open.feishu.cn/mcp/stream/...
-```
-
-库会优先尝试 **Streamable HTTP**，失败后回退到 **SSE**。
+转换结束后，库会把新建文档的所有者转给这个 `openId`（仅新建路径；传了 `existingDocumentUrl` 时跳过此步）。机器人在转移后默认保留 `full_access` 协作权限，仍可继续编辑。
 
 ### 3) 飞书机器人认证信息
 
@@ -89,9 +89,9 @@ https://open.feishu.cn/mcp/stream/...
 
 该 token / 凭证用于：
 
-- 获取 bot open id
-- 给新建文档授权
+- 创建文档与正文块
 - 上传图片 / 文件到飞书文档
+- 转移文档所有者
 
 ## 快速开始
 
@@ -102,8 +102,8 @@ import { createFeishuDocFromXArticle } from 'xarticle2feishu';
 
 const result = await createFeishuDocFromXArticle({
   articleUrl: 'https://x.com/ashpreetbedi/status/2053885390717890757',
-  feishuMcpServerUrl: 'https://open.feishu.cn/mcp/stream/your-server-id',
   botTenantAccessToken: process.env.FEISHU_BOT_TENANT_ACCESS_TOKEN!,
+  ownerOpenId: process.env.FEISHU_DOC_OWNER_OPEN_ID!,
 });
 
 console.log(result.docUrl);
@@ -121,8 +121,8 @@ const { tenantAccessToken } = await fetchTenantAccessToken(
 
 const result = await createFeishuDocFromXArticle({
   articleUrl: 'https://x.com/ashpreetbedi/status/2053885390717890757',
-  feishuMcpServerUrl: 'https://open.feishu.cn/mcp/stream/your-server-id',
   botTenantAccessToken: tenantAccessToken,
+  ownerOpenId: process.env.FEISHU_DOC_OWNER_OPEN_ID!,
 });
 
 console.log(result.docUrl);
@@ -147,7 +147,7 @@ console.log(result.docUrl);
 
 ### 需要配置的 GitHub Secrets
 
-- `FEISHU_MCP_SERVER_URL`
+- `FEISHU_DOC_OWNER_OPEN_ID` —— 新建文档转移给的用户 openID
 - `FEISHU_BOT_APP_ID`
 - `FEISHU_BOT_APP_SECRET`
 - `FEISHU_WEBHOOK_URL`
@@ -199,8 +199,9 @@ gh workflow run convert-x-article.yml \
 ```ts
 type CreateFeishuDocFromXArticleInput = {
   articleUrl: string;
-  feishuMcpServerUrl: string;
   botTenantAccessToken: string;
+  ownerOpenId: string;
+  existingDocumentUrl?: string;
 };
 
 type CreateFeishuDocFromXArticleResult = {
@@ -278,16 +279,14 @@ export { fetchBotInfo, fetchTenantAccessToken, uploadImageToDocument } from './f
 export { sendFeishuWebhookMessage } from './feishuWebhook.js';
 ```
 
-## 需要的 Feishu MCP 工具
+## 飞书自建应用所需权限
 
-远程 MCP Server 需要至少提供这些工具名：
+应用至少需要以下权限：
 
-- `docx_v1_document_create`
-- `docx_v1_documentBlockDescendant_create`
-- `docx_v1_documentBlock_patch`
-- `drive_v1_permissionMember_create`
-
-缺少其中任意一个时，运行时会直接报错。
+- 创建及编辑新版文档（`docx:document`）
+- 转移云文档的所有权（`drive:drive` 的相关位）
+- 上传 / 下载素材（媒体上传所用）
+- `bot:read` 等用于 `fetchBotInfo` 的权限（仅当你单独调用该导出函数时需要）
 
 ## 内容映射规则
 
@@ -317,7 +316,7 @@ export { sendFeishuWebhookMessage } from './feishuWebhook.js';
 
 - 只支持 `x.com` / `twitter.com` 状态页 URL。
 - 依赖 `fxtwitter` 返回 `tweet.article`；普通推文不保证可用。
-- 依赖远程 Feishu MCP Server 的工具可用性与权限配置。
+- 依赖飞书自建应用具备文档创建 / 编辑、转移所有者、媒体上传等权限。
 - 图片 / 视频需要 bot token 具备对应文档与素材上传权限。
 - GitHub Action 外部触发模式当前只支持 `repository_dispatch`。
 - 运行时依赖原生 `fetch` / `FormData` / `Blob`，建议使用 **Node.js 18+**。
@@ -380,7 +379,7 @@ npm run test:watch
 
 ```bash
 npm run build
-node --input-type=module -e "import { createFeishuDocFromXArticle } from './dist/src/runtime/createFeishuDocFromXArticle.js'; const result = await createFeishuDocFromXArticle({ articleUrl: 'https://x.com/ashpreetbedi/status/2053885390717890757', feishuMcpServerUrl: 'https://open.feishu.cn/mcp/stream/your-server-id', botTenantAccessToken: process.env.FEISHU_BOT_TENANT_ACCESS_TOKEN }); console.log(result.docUrl);"
+node --input-type=module -e "import { createFeishuDocFromXArticle } from './dist/src/runtime/createFeishuDocFromXArticle.js'; const result = await createFeishuDocFromXArticle({ articleUrl: 'https://x.com/ashpreetbedi/status/2053885390717890757', botTenantAccessToken: process.env.FEISHU_BOT_TENANT_ACCESS_TOKEN, ownerOpenId: process.env.FEISHU_DOC_OWNER_OPEN_ID }); console.log(result.docUrl);"
 ```
 
 ## License

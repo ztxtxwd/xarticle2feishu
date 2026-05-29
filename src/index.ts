@@ -12,3 +12,4 @@ export { renderDocumentPlan } from './mapping/renderDocumentPlan.js';
 export { renderFeishuBlocks } from './mapping/renderFeishuBlocks.js';
 export { fetchBotInfo, fetchTenantAccessToken, uploadImageToDocument } from './feishuBotHttp.js';
 export { sendFeishuWebhookMessage } from './feishuWebhook.js';
+export { transferDocumentOwner } from './feishuDocsHttp.js';
