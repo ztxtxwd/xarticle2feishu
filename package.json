@@ -1,6 +1,6 @@
 {
   "name": "xarticle2feishu",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Generate a Feishu document from an x.com article URL via the Feishu OpenAPI.",
   "type": "module",
   "author": "赵天雄",

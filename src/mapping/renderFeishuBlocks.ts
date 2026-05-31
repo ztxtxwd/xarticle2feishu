@@ -107,9 +107,6 @@ function makeImagePlaceholder(blockId: string, operation: Extract<DocumentPlanOp
     image: {
       width: operation.width,
       height: operation.height,
-      caption: {
-        content: 'image',
-      },
     },
   };
 }
