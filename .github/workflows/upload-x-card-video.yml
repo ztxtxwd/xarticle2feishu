@@ -1,0 +1,63 @@
+name: Upload X card video for Feishu preview
+
+on:
+  repository_dispatch:
+    types:
+      - upload_x_card_video
+  workflow_dispatch:
+    inputs:
+      videoUrl:
+        description: Direct MP4 video URL
+        required: true
+        type: string
+      durationMs:
+        description: Video duration in milliseconds
+        required: false
+        type: string
+      coverImageUrl:
+        description: Optional cover image URL
+        required: false
+        type: string
+      callbackUrl:
+        description: miaolan /internal/video-ready callback URL
+        required: true
+        type: string
+      callbackToken:
+        description: Shared callback bearer token
+        required: true
+        type: string
+      cacheKey:
+        description: Cache key used by miaolan video DO
+        required: false
+        type: string
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload video and callback
+        env:
+          VIDEO_URL: ${{ github.event.client_payload.videoUrl || inputs.videoUrl }}
+          DURATION_MS: ${{ github.event.client_payload.durationMs || inputs.durationMs }}
+          COVER_IMAGE_URL: ${{ github.event.client_payload.coverImageUrl || inputs.coverImageUrl }}
+          CALLBACK_URL: ${{ github.event.client_payload.callbackUrl || inputs.callbackUrl }}
+          CALLBACK_TOKEN: ${{ github.event.client_payload.callbackToken || inputs.callbackToken }}
+          CACHE_KEY: ${{ github.event.client_payload.cacheKey || inputs.cacheKey }}
+          FEISHU_BOT_APP_ID: ${{ secrets.FEISHU_BOT_APP_ID }}
+          FEISHU_BOT_APP_SECRET: ${{ secrets.FEISHU_BOT_APP_SECRET }}
+        run: node ./dist/src/cli/runUploadCardVideo.js

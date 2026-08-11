@@ -145,6 +145,13 @@ console.log(result.docUrl);
 - 必填参数：`articleUrl`
 - 可选参数：`existingDocumentUrl`，传入已有飞书文档链接后会复用该文档并覆盖内容
 
+另有卡片视频上传 workflow：
+
+- 文件：`.github/workflows/upload-x-card-video.yml`
+- 事件类型：`upload_x_card_video`
+- 下载 MP4（≤30MB）后调用飞书 `im/v1/files` 上传，再回调 `callbackUrl` 回写 `file_key`
+- payload 字段：`videoUrl`、`durationMs`、`coverImageUrl`、`callbackUrl`、`callbackToken`、`cacheKey`
+
 ### 需要配置的 GitHub Secrets
 
 - `FEISHU_DOC_OWNER_OPEN_ID` —— 新建文档转移给的用户 openID
